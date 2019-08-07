@@ -16,7 +16,7 @@ type config struct {
 
 // loadConfig loads the configuration
 func loadConfig() (c *config, err error) {
-	configFile := "/etc/openshift-route-exporter/config.yml"
+	configFile := "/etc/ormon/config.yml"
 	if configFileDirFromEnv, ok := os.LookupEnv("CONFIG"); ok {
 		configFile = configFileDirFromEnv
 	}

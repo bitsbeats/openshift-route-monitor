@@ -8,15 +8,15 @@ Configuration is handled via a single yaml file and kubeconfigs:
 
 ```yaml
 targets:
-  - kubeconfig: /etc/openshift-route-exporter/devcluster.kubeconfig
+  - kubeconfig: /etc/ormon/devcluster.kubeconfig
     labels:
       cluster: devcluster
-  - kubeconfig: /etc/openshift-route-exporter/prodcluster.kubeconfig
+  - kubeconfig: /etc/ormon/prodcluster.kubeconfig
     labels:
       cluster: prodcluster
 ```
 
-One can use the small "script" in helper to create a kubeconfig.
+One can use the shell script in helper to create a kubeconfig.
 
 ## Annotations
 
