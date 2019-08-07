@@ -1,0 +1,10 @@
+apiVersion: authorization.openshift.io/v1
+kind: ClusterRoleBinding
+metadata:
+  name: bb-ormon-ext
+roleRef:
+  name: bb-ormon-ext
+subjects:
+- kind: ServiceAccount
+  name: bb-ormon-ext
+  namespace: default
