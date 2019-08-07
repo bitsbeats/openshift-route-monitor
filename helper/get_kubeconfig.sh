@@ -13,7 +13,7 @@ OUT="${3:-/dev/stdout}"
 CACERT=$(mktemp)
 KUBECONFIG=$(mktemp)
 
-secret=$(kubectl -n "$NAMESPACE" get sa "$SERVICEACCOUNT" -o=jsonpath="{.secrets[0].name}")
+secret=$(kubectl -n "$NAMESPACE" get sa "$SERVICEACCOUNT" -o=jsonpath="{.secrets[*].name}" | xargs -n1 | grep token)
 token=$(kubectl get secret "$secret" -o=jsonpath="{.data.token}" | base64 -d)
 kubectl get secret "$secret" -o=jsonpath="{.data.ca\.crt}" | base64 -d > "$CACERT"
 
