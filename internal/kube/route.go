@@ -55,6 +55,7 @@ type (
 		ReadBody      time.Duration
 		Expires       time.Time
 		Size          int64
+		RedirectCount int64
 
 		InvalidRouteErr      bool
 		InvalidRequestErr    bool
@@ -149,9 +150,20 @@ func (r *Route) Probe(ctx context.Context) (m *RequestMetrics) {
 	}
 
 	// request
-	req = req.WithContext(httptrace.WithClientTrace(req.Context(), trace))
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
-	resp, err := http.DefaultTransport.RoundTrip(req)
+	client := http.Client{
+		Transport: http.DefaultTransport,
+		CheckRedirect: func( r *http.Request, via []*http.Request) (error) {
+			redirects := len(via)
+			m.RedirectCount = int64(redirects)
+			if redirects > 10 {
+				return fmt.Errorf("to many redirects (%d)", redirects)
+			}
+			return nil
+		},
+	}
+	req = req.WithContext(httptrace.WithClientTrace(req.Context(), trace))
+	resp, err := client.Do(req)
 	if err != nil {
 		m.ConnectionErr = true
 		logrus.Errorf("%s %s %s", err, m.Cluster, m.Host)

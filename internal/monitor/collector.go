@@ -53,6 +53,13 @@ func NewCollector(mw *kube.MultiWatcher) *Collector {
 			},
 			[]string{"host", "path", "ssl", "cluster", "uid"},
 		},
+		"redirect_count": {
+			"number of http redirects",
+			func(m *kube.RequestMetrics) (float64, []string) {
+				return float64(m.RedirectCount), []string{}
+			},
+			[]string{"host", "path", "ssl", "cluster", "uid"},
+		},
 		"invalid_request_error": {
 			"errors during request",
 			func(m *kube.RequestMetrics) (float64, []string) {
