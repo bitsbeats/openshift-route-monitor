@@ -214,7 +214,7 @@ func (r *Route) Probe(ctx context.Context) (m *RequestMetrics) {
 func expiresFirst(certs []*x509.Certificate) time.Time {
 	earliest := time.Time{}
 	for _, c := range certs {
-		if (c.NotAfter.IsZero() || c.NotAfter.Before(earliest)) && !c.NotAfter.IsZero() {
+		if (earliest.IsZero() || c.NotAfter.Before(earliest)) && !c.NotAfter.IsZero() {
 			earliest = c.NotAfter
 		}
 	}
