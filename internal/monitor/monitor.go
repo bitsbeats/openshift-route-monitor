@@ -23,7 +23,7 @@ type (
 	}
 )
 
-// Create a new Monitor from Config
+// New creates a new Monitor from Config
 func New(c Config, mw *kube.MultiWatcher) (m *Monitor, err error) {
 	if c.Listen == "" {
 		c.Listen = ":9142"

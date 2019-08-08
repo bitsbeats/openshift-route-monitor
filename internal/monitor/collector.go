@@ -140,7 +140,7 @@ func (c *Collector) Collect(ch chan<- prometheus.Metric) {
 }
 
 func (c *Collector) check(r *kube.Route, ch chan<- prometheus.Metric) {
-	ctx, cancel := context.WithTimeout(context.Background(), 10*time.Second)
+	ctx, cancel := context.WithTimeout(context.Background(), 9*time.Second)
 	defer cancel()
 
 	rm := r.Probe(ctx)
