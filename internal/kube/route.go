@@ -177,6 +177,8 @@ func (r *Route) Probe(ctx context.Context) (m *RequestMetrics) {
 	}
 	if !statusCodeIsValid {
 		m.InvalidStatusCodeErr = true
+		msg := fmt.Sprintf("statuscode %d not in %s", resp.StatusCode, strings.Join(m.ValidStatusCodes, ","))
+		logrus.Errorf("%s %s %s", msg, m.Cluster, m.Host)
 	}
 
 	// read body
