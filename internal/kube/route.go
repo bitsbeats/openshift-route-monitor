@@ -33,7 +33,6 @@ type (
 		Host  string
 		Proto string
 		Path  string
-		URL   string
 
 		Name      string
 		Namespace string
@@ -77,14 +76,16 @@ func (r *Route) getProbeInfo() *ProbeInfo {
 	if !ssl {
 		proto = "http"
 	}
-	path := r.Spec.Path
-	url := fmt.Sprintf("%s://%s", proto, host)
 	skip := false
+	path := r.Spec.Path
 	if strings.HasPrefix(path, "/.well-known/acme-challenge/") {
 		skip = true
 	}
 	if as, ok := r.GetAnnotations()["thobits.com/ormon-skip"]; ok {
 		skip, _ = strconv.ParseBool(as)
+	}
+	if ap, ok := r.GetAnnotations()["thobits.com/ormon-path"]; ok {
+		path = ap
 	}
 	method := "GET"
 	if am, ok := r.GetAnnotations()["thobits.com/ormon-method"]; ok {
@@ -104,8 +105,7 @@ func (r *Route) getProbeInfo() *ProbeInfo {
 
 		Host:  host,
 		Proto: proto,
-		Path:  r.Spec.Path,
-		URL:   url,
+		Path:  path,
 
 		Name:      r.Name,
 		Namespace: r.Namespace,
@@ -128,7 +128,7 @@ func (r *Route) Probe(ctx context.Context) (m *RequestMetrics) {
 	if m.Skip {
 		return nil
 	}
-	req, err := http.NewRequest(m.Method, m.URL, nil)
+	req, err := http.NewRequest(m.Method, m.URL(), nil)
 	if err != nil {
 		m.InvalidRequestErr = true
 		logrus.Errorf("%s %s %s", err, m.Cluster, m.Host)
@@ -217,6 +217,16 @@ func (r *Route) Probe(ctx context.Context) (m *RequestMetrics) {
 	}
 
 	return m
+}
+
+func (pi *ProbeInfo) URL() string {
+	path := pi.Path
+	if strings.HasPrefix(path, "/") {
+		path = path[1:len(path)]
+	}
+	url := fmt.Sprintf("%s://%s/%s", pi.Proto, pi.Host, pi.Path)
+	return url
+
 }
 
 func expiresFirst(certs []*x509.Certificate) time.Time {
