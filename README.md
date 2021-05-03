@@ -24,3 +24,7 @@ One can use the shell script in helper to create a kubeconfig.
 * `thobits.com/ormon-method`: Set http method the check the Route.
 * `thobits.com/ormon-valid-statuscodes`: Configure valid statuscodes, multiple can be comma seperated.
 * `thobits.com/ormon-body-regex`: Body validation regex
+
+## Installation
+
+See `manifests` folder for example deployment.

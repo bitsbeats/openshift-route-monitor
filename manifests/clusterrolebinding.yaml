@@ -1,10 +1,10 @@
 apiVersion: authorization.openshift.io/v1
 kind: ClusterRoleBinding
 metadata:
-  name: bb-ormon-ext
+  name: bitsbeats-route-monitor
 roleRef:
-  name: bb-ormon-ext
+  name: bitsbeats-route-monitor
 subjects:
 - kind: ServiceAccount
-  name: bb-ormon-ext
+  name: bitsbeats-route-monitor
   namespace: default

@@ -1,7 +1,7 @@
 apiVersion: authorization.openshift.io/v1
 kind: ClusterRole
 metadata:
-  name: bb-ormon-ext
+  name: bitsbeats-route-monitor
 rules:
 - apiGroups:
   - route.openshift.io
