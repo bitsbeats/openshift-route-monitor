@@ -43,6 +43,14 @@ func newDescMap(mb mapBuilder) (dm descMap) {
 // the confgured valueGetter and the stored *prometheus.Desc
 func (dv descValue) getPromConstMetric(rm *kube.RequestMetrics) (pm prometheus.Metric, err error) {
 	value, labels := dv.valueGetter(rm)
-	labels = append([]string{rm.Host, rm.Path, fmt.Sprintf("%t", rm.SSL), rm.Cluster, rm.UID}, labels...)
+	labels = append([]string{
+		rm.Host,
+		rm.Path,
+		fmt.Sprintf("%t", rm.SSL),
+		rm.Cluster,
+		rm.UID,
+		rm.Namespace,
+		rm.Name,
+	}, labels...)
 	return prometheus.NewConstMetric(dv.desc, prometheus.GaugeValue, value, labels...)
 }

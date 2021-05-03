@@ -24,33 +24,33 @@ func NewCollector(mw *kube.MultiWatcher) *Collector {
 			func(m *kube.RequestMetrics) (float64, []string) {
 				return m.Resolved.Seconds(), []string{}
 			},
-			[]string{"host", "path", "ssl", "cluster", "uid"},
+			[]string{"host", "path", "ssl", "cluster", "uid", "namespace", "name"},
 		},
 		"connected_seconds": {
 			"time to open the connection",
 			func(m *kube.RequestMetrics) (float64, []string) { return m.Connected.Seconds(), []string{} },
-			[]string{"host", "path", "ssl", "cluster", "uid"},
+			[]string{"host", "path", "ssl", "cluster", "uid", "namespace", "name"},
 		},
 		"wrote_request_seconds": {
 			"time until the full request was sent",
 			func(m *kube.RequestMetrics) (float64, []string) {
 				return m.WroteRequest.Seconds(), []string{}
 			},
-			[]string{"host", "path", "ssl", "cluster", "uid"},
+			[]string{"host", "path", "ssl", "cluster", "uid", "namespace", "name"},
 		},
 		"read_first_byte_seconds": {
 			"time until first byte was read",
 			func(m *kube.RequestMetrics) (float64, []string) {
 				return m.ReadFirstByte.Seconds(), []string{}
 			},
-			[]string{"host", "path", "ssl", "cluster", "uid"},
+			[]string{"host", "path", "ssl", "cluster", "uid", "namespace", "name"},
 		},
 		"read_body_seconds": {
 			"time until full body was read",
 			func(m *kube.RequestMetrics) (float64, []string) {
 				return m.ReadBody.Seconds(), []string{}
 			},
-			[]string{"host", "path", "ssl", "cluster", "uid"},
+			[]string{"host", "path", "ssl", "cluster", "uid", "namespace", "name"},
 		},
 		"ssl_exires_seconds": {
 			"seconds until the ssl expires",
@@ -62,14 +62,14 @@ func NewCollector(mw *kube.MultiWatcher) *Collector {
 				untilExpire := time.Until(m.Expires).Seconds()
 				return untilExpire, []string{}
 			},
-			[]string{"host", "path", "ssl", "cluster", "uid"},
+			[]string{"host", "path", "ssl", "cluster", "uid", "namespace", "name"},
 		},
 		"redirect_count": {
 			"number of http redirects",
 			func(m *kube.RequestMetrics) (float64, []string) {
 				return float64(m.RedirectCount), []string{}
 			},
-			[]string{"host", "path", "ssl", "cluster", "uid"},
+			[]string{"host", "path", "ssl", "cluster", "uid", "namespace", "name"},
 		},
 		"invalid_request_error": {
 			"errors during request",
@@ -79,7 +79,7 @@ func NewCollector(mw *kube.MultiWatcher) *Collector {
 				}
 				return 0, []string{}
 			},
-			[]string{"host", "path", "ssl", "cluster", "uid"},
+			[]string{"host", "path", "ssl", "cluster", "uid", "namespace", "name"},
 		},
 		"connection_error": {
 			"errors during connection opening",
@@ -89,7 +89,7 @@ func NewCollector(mw *kube.MultiWatcher) *Collector {
 				}
 				return 0, []string{}
 			},
-			[]string{"host", "path", "ssl", "cluster", "uid"},
+			[]string{"host", "path", "ssl", "cluster", "uid", "namespace", "name"},
 		},
 		"body_download_error": {
 			"errors during body download",
@@ -99,7 +99,7 @@ func NewCollector(mw *kube.MultiWatcher) *Collector {
 				}
 				return 0, []string{}
 			},
-			[]string{"host", "path", "ssl", "cluster", "uid"},
+			[]string{"host", "path", "ssl", "cluster", "uid", "namespace", "name"},
 		},
 		"invalid_statuscode_error": {
 			"invalid statuscode",
@@ -109,7 +109,7 @@ func NewCollector(mw *kube.MultiWatcher) *Collector {
 				}
 				return 0, []string{}
 			},
-			[]string{"host", "path", "ssl", "cluster", "uid"},
+			[]string{"host", "path", "ssl", "cluster", "uid", "namespace", "name"},
 		},
 		"invalid_body_regex_error": {
 			"invalid regex",
@@ -119,7 +119,7 @@ func NewCollector(mw *kube.MultiWatcher) *Collector {
 				}
 				return 0, []string{}
 			},
-			[]string{"host", "path", "ssl", "cluster", "uid"},
+			[]string{"host", "path", "ssl", "cluster", "uid", "namespace", "name"},
 		},
 		"invalid_body_error": {
 			"invalid body",
@@ -129,7 +129,7 @@ func NewCollector(mw *kube.MultiWatcher) *Collector {
 				}
 				return 0, []string{}
 			},
-			[]string{"host", "path", "ssl", "cluster", "uid"},
+			[]string{"host", "path", "ssl", "cluster", "uid", "namespace", "name"},
 		},
 	})
 	return &Collector{

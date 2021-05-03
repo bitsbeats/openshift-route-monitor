@@ -35,6 +35,9 @@ type (
 		Path  string
 		URL   string
 
+		Name      string
+		Namespace string
+
 		Method           string
 		ValidStatusCodes []string
 		BodyRegex        string
@@ -103,6 +106,9 @@ func (r *Route) getProbeInfo() *ProbeInfo {
 		Proto: proto,
 		Path:  r.Spec.Path,
 		URL:   url,
+
+		Name:      r.Name,
+		Namespace: r.Namespace,
 
 		Method:           method,
 		ValidStatusCodes: validStatusCodes,
