@@ -55,7 +55,12 @@ func NewCollector(mw *kube.MultiWatcher) *Collector {
 		"ssl_exires_seconds": {
 			"seconds until the ssl expires",
 			func(m *kube.RequestMetrics) (float64, []string) {
-				return time.Until(m.Expires).Seconds(), []string{}
+				if m.Expires.IsZero() {
+					// no certificate
+					return -1, []string{}
+				}
+				untilExpire := time.Until(m.Expires).Seconds()
+				return untilExpire, []string{}
 			},
 			[]string{"host", "path", "ssl", "cluster", "uid"},
 		},
