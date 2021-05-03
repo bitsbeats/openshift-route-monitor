@@ -131,7 +131,7 @@ func (r *Route) Probe(ctx context.Context) (m *RequestMetrics) {
 	req, err := http.NewRequest(m.Method, m.URL(), nil)
 	if err != nil {
 		m.InvalidRequestErr = true
-		logrus.Errorf("%s %s %s", err, m.Cluster, m.Host)
+		logrus.Errorf("%s %s %s", err, m.Cluster, m.URL())
 		return
 	}
 	req = req.WithContext(ctx)
@@ -184,7 +184,7 @@ func (r *Route) Probe(ctx context.Context) (m *RequestMetrics) {
 	if !statusCodeIsValid {
 		m.InvalidStatusCodeErr = true
 		msg := fmt.Sprintf("statuscode %d not in %s", resp.StatusCode, strings.Join(m.ValidStatusCodes, ","))
-		logrus.Errorf("%s %s %s", msg, m.Cluster, m.Host)
+		logrus.Errorf("%s %s %s", msg, m.Cluster, m.URL())
 	}
 
 	// read body
@@ -193,20 +193,20 @@ func (r *Route) Probe(ctx context.Context) (m *RequestMetrics) {
 	m.Size, err = io.Copy(body, respBodyReader)
 	if err != nil {
 		m.BodyDownloadErr = true
-		logrus.Errorf("%s %s %s", err, m.Cluster, m.Host)
+		logrus.Errorf("%s %s %s", err, m.Cluster, m.URL())
 		return
 	}
 	m.ReadBody = time.Since(m.Start)
 	bodyRegex, err := regexp.Compile(m.BodyRegex)
 	if err != nil {
 		m.InvalidBodyRegexErr = true
-		logrus.Errorf("%s %s %s", err, m.Cluster, m.Host)
+		logrus.Errorf("%s %s %s", err, m.Cluster, m.URL())
 		return
 	}
 	match := bodyRegex.FindReaderIndex(body)
 	if match == nil {
 		m.InvalidBodyErr = true
-		logrus.Errorf("%s %s %s", "body regex does not match", m.Cluster, m.Host)
+		logrus.Errorf("%s %s %s", "body regex does not match", m.Cluster, m.URL())
 		return
 	}
 
