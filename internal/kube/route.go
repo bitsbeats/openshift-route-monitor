@@ -153,7 +153,7 @@ func (r *Route) Probe(ctx context.Context) (m *RequestMetrics) {
 	http.DefaultTransport.(*http.Transport).TLSClientConfig = &tls.Config{InsecureSkipVerify: true}
 	client := http.Client{
 		Transport: http.DefaultTransport,
-		CheckRedirect: func( r *http.Request, via []*http.Request) (error) {
+		CheckRedirect: func(r *http.Request, via []*http.Request) error {
 			redirects := len(via)
 			m.RedirectCount = int64(redirects)
 			if redirects > 10 {
