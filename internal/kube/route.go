@@ -222,9 +222,9 @@ func (r *Route) Probe(ctx context.Context) (m *RequestMetrics) {
 func (pi *ProbeInfo) URL() string {
 	path := pi.Path
 	if strings.HasPrefix(path, "/") {
-		path = path[1:len(path)]
+		path = path[1:]
 	}
-	url := fmt.Sprintf("%s://%s/%s", pi.Proto, pi.Host, pi.Path)
+	url := fmt.Sprintf("%s://%s/%s", pi.Proto, pi.Host, path)
 	return url
 
 }
