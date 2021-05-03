@@ -33,17 +33,23 @@ func NewCollector(mw *kube.MultiWatcher) *Collector {
 		},
 		"wrote_request_seconds": {
 			"time until the full request was sent",
-			func(m *kube.RequestMetrics) (float64, []string) { return m.WroteRequest.Seconds(), []string{} },
+			func(m *kube.RequestMetrics) (float64, []string) {
+				return m.WroteRequest.Seconds(), []string{}
+			},
 			[]string{"host", "path", "ssl", "cluster", "uid"},
 		},
 		"read_first_byte_seconds": {
 			"time until first byte was read",
-			func(m *kube.RequestMetrics) (float64, []string) { return m.ReadFirstByte.Seconds(), []string{} },
+			func(m *kube.RequestMetrics) (float64, []string) {
+				return m.ReadFirstByte.Seconds(), []string{}
+			},
 			[]string{"host", "path", "ssl", "cluster", "uid"},
 		},
 		"read_body_seconds": {
 			"time until full body was read",
-			func(m *kube.RequestMetrics) (float64, []string) { return m.ReadBody.Seconds(), []string{} },
+			func(m *kube.RequestMetrics) (float64, []string) {
+				return m.ReadBody.Seconds(), []string{}
+			},
 			[]string{"host", "path", "ssl", "cluster", "uid"},
 		},
 		"ssl_exires_seconds": {
